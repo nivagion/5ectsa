@@ -463,6 +463,7 @@ MonoBehaviour:
   onCamera: 0
   score: 0
   kolikoTrebaProc: 1
+  rotirajuciNino: {fileID: 1154018365}
 --- !u!1 &671052021
 GameObject:
   m_ObjectHideFlags: 0
