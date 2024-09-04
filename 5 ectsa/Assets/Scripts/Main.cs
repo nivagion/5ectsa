@@ -12,17 +12,21 @@ public class Main : MonoBehaviour
     private float timer = 0f;
     public float kolikoTrebaProc = 1f;
 
-    void Start()//prije prvog updatea
-    {
-        
-    }
+    public GameObject rotirajuciNino;
 
 
     void Update()//svaki frame
     {
-        
+        float capsuleYDegree = rotirajuciNino.transform.eulerAngles.y;
 
-        //onCamera = tu ide funkcija koja provjerava dal je naš player u ninotovom POV i vraæa 1 ako je i 0 ako nije
+        if (capsuleYDegree < 45 && capsuleYDegree > -1)
+        {
+            onCamera = true;
+        }
+        else{
+            onCamera = false;
+        }
+
         if (onCamera)
         {
             if (jede || pije || mobitel)
