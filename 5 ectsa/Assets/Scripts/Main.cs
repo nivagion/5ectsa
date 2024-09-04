@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Main : MonoBehaviour
 {
@@ -13,14 +14,35 @@ public class Main : MonoBehaviour
     public float kolikoTrebaProc = 1f;
 
     public GameObject rotirajuciNino;
+
     public GameObject kraj;
+
+    public Slider HungerSlider;
+    private float Hunger;
+    public Slider ThirstSlider;
+    private float Thirst;
+    public Slider SanSlider;
+    private float San;
     void Start()
     {
         //tekst koji oznacava game over je uvijek hidden na pocetku
         kraj.SetActive(false);
+        //na pocetku igre hunger je na 100%(nisi gladan)
+        Hunger = 100f;
+        Thirst = 100f;
+        San = 100f;
     }
     void Update()//svaki frame
     {
+        //povezuje slider sa vrijednosti
+        ThirstSlider.value = Thirst;
+        HungerSlider.value = Hunger;
+        SanSlider.value = San;
+
+        Hunger -= 5f * Time.deltaTime;
+        Thirst -= 3f * Time.deltaTime;
+        San -= 2f * Time.deltaTime;
+
         jede = Input.GetKey(KeyCode.A);
         pije = Input.GetKey(KeyCode.S);
         mobitel = Input.GetKey(KeyCode.D);
