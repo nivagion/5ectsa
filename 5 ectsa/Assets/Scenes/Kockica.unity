@@ -290,7 +290,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bd96ef5c2f18b924087729674adc8b1e, type: 2}
+  - {fileID: 2100000, guid: 1dbcdd8ff94528e48b2ec42b537b1d40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -329,7 +329,7 @@ Transform:
   m_GameObject: {fileID: 281874629}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.94602287, y: 4.14, z: 0}
-  m_LocalScale: {x: 6.72, y: 6.72, z: 6.72}
+  m_LocalScale: {x: 15.150001, y: 15.150001, z: 15.150001}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 834698319}
@@ -351,6 +351,7 @@ GameObject:
   - component: {fileID: 352127338}
   - component: {fileID: 352127337}
   - component: {fileID: 352127336}
+  - component: {fileID: 352127340}
   m_Layer: 0
   m_Name: namazan u kocki
   m_TagString: Untagged
@@ -444,6 +445,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &352127340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352127335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d68b22b68b06d3409cdff541d938d68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jede: 0
+  mobitel: 0
+  pije: 0
+  onCamera: 0
+  score: 0
+  kolikoTrebaProc: 1
 --- !u!1 &671052021
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,7 +563,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 671052021}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.8, y: 4.9, z: 11.7}
+  m_LocalPosition: {x: 0, y: 5, z: 11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -811,7 +830,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 26.991467
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -944,7 +963,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1154018365}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.413022, y: 4.97, z: -21.24}
+  m_LocalPosition: {x: 0, y: 5.46, z: -14.05}
   m_LocalScale: {x: 1.34, y: 1.34, z: 1.34}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -970,7 +989,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1533800204
 Transform:
   m_ObjectHideFlags: 0
@@ -1027,7 +1046,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 16
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
