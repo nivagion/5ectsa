@@ -13,17 +13,44 @@ public class Main : MonoBehaviour
     public float kolikoTrebaProc = 1f;
 
     public GameObject rotirajuciNino;
-
-
+    public GameObject kraj;
+    void Start()
+    {
+        //krug koji oznacava game over je uvijek hidden na pocetku
+        kraj.SetActive(false);
+    }
     void Update()//svaki frame
     {
+        jede = Input.GetKey(KeyCode.A);
+        pije = Input.GetKey(KeyCode.S);
+        mobitel = Input.GetKey(KeyCode.D);
+        //eliminira double input, ako je jedan aktivan ostali ne mogu bit
+        if (jede)
+        {
+            jede = true;
+            pije = false;
+            mobitel = false;
+        }
+        else if (pije)
+        {
+            jede = false;
+            pije = true;
+            mobitel = false;
+        }
+        else if (mobitel)
+        {
+            jede = false;
+            mobitel = true;
+            pije = false;
+        }
         float capsuleYDegree = rotirajuciNino.transform.eulerAngles.y;
 
         if (capsuleYDegree < 45 && capsuleYDegree > -1)
         {
             onCamera = true;
         }
-        else{
+        else
+        {
             onCamera = false;
         }
 
@@ -31,37 +58,45 @@ public class Main : MonoBehaviour
         {
             if (jede || pije || mobitel)
             {
+            
                 gameOver(highscore, score);
             }
+
+
         }
 
         timer += Time.deltaTime;
-        if(timer >= kolikoTrebaProc)
+        if (timer >= kolikoTrebaProc)
         {
             timer = 0f;
             score++;
+
+
         }
 
-    }
-
-    void gameOver(int highscore, int score)//dobiva spremljeni high score iz filea
-    {
-        if (score > highscore)
+        void gameOver(int highscore, int score)//dobiva spremljeni high score iz filea
         {
-            highscore = score;
-            //spremi score na memoriju highscorea
-            // print NEW HIGH SCORE
-            // UI ZA GAME OVER
-            // UI ZA HIGH SCORE (best score:highscore)
-        }
-        else
-        {
-            // UI ZA GAME OVER
-            //print score: best score: highscore
-            //             current run: score
+            //kada je jede/pije/spava aktivan krug postaje unhiden
+            kraj.SetActive(true);
+
+            if (score > highscore)
+            {
+                highscore = score;
+                //spremi score na memoriju highscorea
+                // print NEW HIGH SCORE
+                // UI ZA GAME OVER
+                // UI ZA HIGH SCORE (best score:highscore)
+            }
+            else
+            {
+                // UI ZA GAME OVER
+                //print score: best score: highscore
+                //             current run: score
+            }
+
+            //ENDAJ PROGRAM
         }
 
-        //ENDAJ PROGRAM
     }
 
 }
