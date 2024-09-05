@@ -9,7 +9,7 @@ public class Main : MonoBehaviour
     public bool onCamera = false;
     public int score = 0;
     private int highscore = 100; // dobiva int iz filea, stavit u  start da dobiva iz filea
-
+    public float maxLoss = 10f;
     private float timer = 0f;
     public float kolikoTrebaProc = 1f;
 
@@ -34,37 +34,65 @@ public class Main : MonoBehaviour
     }
     void Update()//svaki frame
     {
+        float lossHunger = Random.Range(4, maxLoss);
+        float lossThirst = Random.Range(3, maxLoss);
+        float lossSan = Random.Range(4, maxLoss);
+
         //povezuje slider sa vrijednosti
         ThirstSlider.value = Thirst;
         HungerSlider.value = Hunger;
         SanSlider.value = San;
 
-        Hunger -= 5f * Time.deltaTime;
-        Thirst -= 3f * Time.deltaTime;
-        San -= 2f * Time.deltaTime;
+        //random koliko ce hrane, vode ili sna izgubit
+        Hunger -= lossHunger * Time.deltaTime;
+        Thirst -= lossThirst * Time.deltaTime;
+        San -= lossSan * Time.deltaTime;
 
         jede = Input.GetKey(KeyCode.A);
         pije = Input.GetKey(KeyCode.S);
         mobitel = Input.GetKey(KeyCode.D);
+
+        //eliminira drzanje buttona i dizanje slidera preko 100
+        if(Hunger>100f)
+        {
+            Hunger = 100f;
+        }
+        else if (Thirst > 100f)
+        {
+            Thirst = 100f;
+        }
+        else if (San > 100f)
+        {
+            San = 100f;
+        }
+
         //eliminira double input, ako je jedan aktivan ostali ne mogu bit
+        //kada se drzi button odredena radnja postaje true, i dodaje mu se vrijednost na value slidera
         if (jede)
         {
-            jede = true;
+            Hunger += 0.1f;
             pije = false;
             mobitel = false;
         }
         else if (pije)
         {
+            Thirst += 0.05f;
             jede = false;
-            pije = true;
             mobitel = false;
         }
         else if (mobitel)
         {
+            San += 0.05f;
             jede = false;
-            mobitel = true;
             pije = false;
         }
+
+
+        if(Hunger<=0 || Thirst<=0 || San <= 0)
+        {
+            gameOver(highscore, score);
+        }
+
         float capsuleYDegree = rotirajuciNino.transform.eulerAngles.y;
 
         if (capsuleYDegree < 45 && capsuleYDegree > -1)
@@ -92,7 +120,6 @@ public class Main : MonoBehaviour
         {
             timer = 0f;
             score++;
-
 
         }
 
