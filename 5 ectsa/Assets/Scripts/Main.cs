@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;//za text od textmashproa
+using System.IO;//za fileove
+using System;
 
 public class Main : MonoBehaviour
 {
     public bool jede = false, mobitel = false, pije = false;
     public bool onCamera = false;
     public int score = 0;
-    private int highscore = 100; // dobiva int iz filea, stavit u  start da dobiva iz filea
+    private int highscore = 0; // dobiva int iz filea, stavit u  start da dobiva iz filea
     public float maxLoss = 10f;
     private float timer = 0f;
     public float kolikoTrebaProc = 1f;
@@ -23,20 +26,45 @@ public class Main : MonoBehaviour
     private float Thirst;
     public Slider SanSlider;
     private float San;
+
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI highscoreText;
+    public TextMeshProUGUI GameOverText;
+
+
+    private string dataPath;
+
+    private bool isGameOver = false;
+
+
     void Start()
     {
-        //tekst koji oznacava game over je uvijek hidden na pocetku
-        kraj.SetActive(false);
+
         //na pocetku igre hunger je na 100%(nisi gladan)
         Hunger = 100f;
         Thirst = 100f;
         San = 100f;
+
+
+        //score
+        //datapath za highscore i ostalo
+        dataPath = Path.Combine(Application.persistentDataPath, "highscore.txt");
+
+        LoadHighScore();
+        UpdateHighScoreText();
+        UpdateScoreText();
+
     }
     void Update()//svaki frame
     {
-        float lossHunger = Random.Range(4, maxLoss);
-        float lossThirst = Random.Range(3, maxLoss);
-        float lossSan = Random.Range(4, maxLoss);
+        if (isGameOver)
+        {
+            return;
+        }
+
+        float lossHunger = UnityEngine.Random.Range(4f, maxLoss);
+        float lossThirst = UnityEngine.Random.Range(3f, maxLoss);
+        float lossSan = UnityEngine.Random.Range(4f, maxLoss);
 
         //povezuje slider sa vrijednosti
         ThirstSlider.value = Thirst;
@@ -87,10 +115,10 @@ public class Main : MonoBehaviour
             pije = false;
         }
 
-
+        //GAME OVER
         if(Hunger<=0 || Thirst<=0 || San <= 0)
         {
-            gameOver(highscore, score);
+            gameOver();
         }
 
         float capsuleYDegree = rotirajuciNino.transform.eulerAngles.y;
@@ -109,43 +137,90 @@ public class Main : MonoBehaviour
             if (jede || pije || mobitel)
             {
 
-                gameOver(highscore, score);
+                gameOver();
             }
 
 
         }
 
+        //SCORE
         timer += Time.deltaTime;
         if (timer >= kolikoTrebaProc)
         {
             timer = 0f;
             score++;
+            UpdateScoreText();
 
         }
+       
 
-        void gameOver(int highscore, int score)//dobiva spremljeni high score iz filea
+
+        void gameOver()//dobiva spremljeni high score iz filea
         {
+            isGameOver = true;
+            GameOverText.text = "Game Over";
             //kada je jede/pije/spava aktivan krug postaje unhiden
-            kraj.SetActive(true);
 
             if (score > highscore)
             {
                 highscore = score;
-                //spremi score na memoriju highscorea
-                // print NEW HIGH SCORE
-                // UI ZA GAME OVER
-                // UI ZA HIGH SCORE (best score:highscore)
+                SaveHighScore(); //spremi score na memoriju highscorea
+                //Debug.Log("New highscore achieved!");
+                UpdateHighScoreText();
             }
             else
             {
-                // UI ZA GAME OVER
-                //print score: best score: highscore
-                //             current run: score
+                //Debug.Log("Game over. Score: " + score + " | Highscore remains: " + highscore);
+
             }
 
             //ENDAJ PROGRAM
         }
 
     }
+    void UpdateScoreText()
+    {
+        scoreText.text = "Score: " + score;
+    }
+
+    void UpdateHighScoreText()
+    {
+        highscoreText.text = "Highscore: " + highscore;
+    }
+
+    void LoadHighScore()
+    {
+
+        if (File.Exists(dataPath))
+        {
+            //Debug.Log("Loading highscore from: " + dataPath); // Debug: Check if the file is found
+            string fileContents = File.ReadAllText(dataPath);
+            //Debug.Log("File contents: " + fileContents); // Debug: Check what's inside the file
+            if (int.TryParse(fileContents, out int loadedHighScore))//int highscorea
+            {
+                highscore = loadedHighScore;
+                //Debug.Log("Highscore loaded: " + highscore); // Debug: Check if parsing was successful
+
+            }
+        }
+        else//ako ne postoji 
+        {
+            SaveHighScore();
+        }
+    }
+    void SaveHighScore()
+    {
+        try
+        {
+            // Write the high score to the file
+            File.WriteAllText(dataPath, highscore.ToString());
+            Debug.Log("Highscore saved successfully: " + highscore);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Failed to save highscore: " + ex.Message);
+        }
+    }
+
 
 }
