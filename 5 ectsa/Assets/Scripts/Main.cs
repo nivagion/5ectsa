@@ -49,6 +49,7 @@ public class Main : MonoBehaviour
         //score
         //datapath za highscore i ostalo
         dataPath = Path.Combine(Application.persistentDataPath, "highscore.txt");
+        Debug.Log(dataPath);
 
         LoadHighScore();
         UpdateHighScoreText();
