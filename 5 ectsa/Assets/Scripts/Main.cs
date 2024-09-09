@@ -27,6 +27,10 @@ public class Main : MonoBehaviour
     public Slider SanSlider;
     private float San;
 
+    public Animator animacija;
+
+    public GameObject lik;
+
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highscoreText;
     public TextMeshProUGUI GameOverText;
@@ -45,17 +49,21 @@ public class Main : MonoBehaviour
         Thirst = 100f;
         San = 100f;
 
+        lik.SetActive(false);  
 
         //score
         //datapath za highscore i ostalo
         dataPath = Path.Combine(Application.persistentDataPath, "highscore.txt");
         //Debug.Log(dataPath);
+        animacija.SetBool("pije", false);
+
 
         LoadHighScore();
         UpdateHighScoreText();
         UpdateScoreText();
 
     }
+
     void Update()//svaki frame
     {
         if (isGameOver)
@@ -82,7 +90,7 @@ public class Main : MonoBehaviour
         mobitel = Input.GetKey(KeyCode.D);
 
         //eliminira drzanje buttona i dizanje slidera preko 100
-        if(Hunger>100f)
+        if (Hunger > 100f)
         {
             Hunger = 100f;
         }
@@ -95,6 +103,19 @@ public class Main : MonoBehaviour
             San = 100f;
         }
 
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            animacija.SetBool("pije", true);
+            lik.SetActive(true);
+        }
+
+        if (Input.GetKeyUp(KeyCode.S))
+        {
+            animacija.SetBool("pije", false);
+            lik.SetActive(false);
+        }
+
+
         //eliminira double input, ako je jedan aktivan ostali ne mogu bit
         //kada se drzi button odredena radnja postaje true, i dodaje mu se vrijednost na value slidera
         if (jede)
@@ -105,19 +126,19 @@ public class Main : MonoBehaviour
         }
         else if (pije)
         {
-            Thirst += 0.05f;
+            Thirst += 0.07f;
             jede = false;
             mobitel = false;
         }
         else if (mobitel)
         {
-            San += 0.05f;
+            San += 0.07f;
             jede = false;
             pije = false;
         }
 
         //GAME OVER
-        if(Hunger<=0 || Thirst<=0 || San <= 0)
+        if (Hunger <= 0 || Thirst <= 0 || San <= 0)
         {
             gameOver();
         }
@@ -153,7 +174,7 @@ public class Main : MonoBehaviour
             UpdateScoreText();
 
         }
-       
+
 
 
         void gameOver()//dobiva spremljeni high score iz filea
