@@ -30,6 +30,8 @@ public class Main : MonoBehaviour
     public Animator animacija;
 
     public GameObject lik;
+    public GameObject burger;
+    public GameObject voda;
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highscoreText;
@@ -56,6 +58,8 @@ public class Main : MonoBehaviour
         dataPath = Path.Combine(Application.persistentDataPath, "highscore.txt");
         //Debug.Log(dataPath);
         animacija.SetBool("pije", false);
+        burger.SetActive(false);
+        voda.SetActive(false);
 
 
         LoadHighScore();
@@ -107,12 +111,28 @@ public class Main : MonoBehaviour
         {
             animacija.SetBool("pije", true);
             lik.SetActive(true);
+            voda.SetActive(true);
         }
 
         if (Input.GetKeyUp(KeyCode.S))
         {
             animacija.SetBool("pije", false);
             lik.SetActive(false);
+            voda.SetActive(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            animacija.SetBool("pije", true);
+            lik.SetActive(true);
+            burger.SetActive(true);
+        }
+
+        if (Input.GetKeyUp(KeyCode.A))
+        {
+            animacija.SetBool("pije", false);
+            lik.SetActive(false);
+            burger.SetActive(false);
         }
 
 
@@ -179,6 +199,7 @@ public class Main : MonoBehaviour
 
         void gameOver()//dobiva spremljeni high score iz filea
         {
+            lik.SetActive(false);
             isGameOver = true;
             GameOverText.text = "Game Over";
             //kada je jede/pije/spava aktivan krug postaje unhiden
