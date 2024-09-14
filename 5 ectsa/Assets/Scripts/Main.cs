@@ -27,6 +27,18 @@ public class Main : MonoBehaviour
     public Slider SanSlider;
     private float San;
 
+<<<<<<< Updated upstream
+=======
+    public Animator animacija;
+    public Animator animacijaTipkanja;
+
+    public GameObject lik;
+    public GameObject burger;
+    public GameObject voda;
+    public GameObject mobitelObjekt;
+    public GameObject likKojiTipka;
+
+>>>>>>> Stashed changes
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highscoreText;
     public TextMeshProUGUI GameOverText;
@@ -50,6 +62,17 @@ public class Main : MonoBehaviour
         //datapath za highscore i ostalo
         dataPath = Path.Combine(Application.persistentDataPath, "highscore.txt");
         //Debug.Log(dataPath);
+<<<<<<< Updated upstream
+=======
+        animacija.SetBool("pije", false);
+        burger.SetActive(false);
+        voda.SetActive(false);
+        animacijaTipkanja.SetBool("mobitel", false);
+        likKojiTipka.SetActive(false);
+        mobitelObjekt.SetActive(false);
+
+
+>>>>>>> Stashed changes
 
         LoadHighScore();
         UpdateHighScoreText();
@@ -95,6 +118,52 @@ public class Main : MonoBehaviour
             San = 100f;
         }
 
+<<<<<<< Updated upstream
+=======
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            animacija.SetBool("pije", true);
+            lik.SetActive(true);
+            voda.SetActive(true);
+        }
+
+        if (Input.GetKeyUp(KeyCode.S))
+        {
+            animacija.SetBool("pije", false);
+            lik.SetActive(false);
+            voda.SetActive(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            animacija.SetBool("pije", true);
+            lik.SetActive(true);
+            burger.SetActive(true);
+        }
+
+        if (Input.GetKeyUp(KeyCode.A))
+        {
+            animacija.SetBool("pije", false);
+            lik.SetActive(false);
+            burger.SetActive(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            animacijaTipkanja.SetBool("mobitel", true);
+            likKojiTipka.SetActive(true);
+            mobitelObjekt.SetActive(true);
+        }
+
+        if (Input.GetKeyUp(KeyCode.D))
+        {
+            animacijaTipkanja.SetBool("mobitel", false);
+            likKojiTipka.SetActive(false);
+            mobitelObjekt.SetActive(false);
+        }
+
+
+>>>>>>> Stashed changes
         //eliminira double input, ako je jedan aktivan ostali ne mogu bit
         //kada se drzi button odredena radnja postaje true, i dodaje mu se vrijednost na value slidera
         if (jede)
