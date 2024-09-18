@@ -19,7 +19,7 @@ public class Main : MonoBehaviour
     public GameObject rotirajuciNino;
 
     public GameObject kraj;
-
+   
     public Slider HungerSlider;
     private float Hunger;
     public Slider ThirstSlider;
@@ -27,11 +27,15 @@ public class Main : MonoBehaviour
     public Slider SanSlider;
     private float San;
 
+
     public Animator animacija;
+    public Animator animacijaTipkanja;
 
     public GameObject lik;
     public GameObject burger;
     public GameObject voda;
+    public GameObject mobitelObjekt;
+    public GameObject likKojiTipka;
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highscoreText;
@@ -51,15 +55,20 @@ public class Main : MonoBehaviour
         Thirst = 100f;
         San = 100f;
 
-        lik.SetActive(false);  
 
         //score
         //datapath za highscore i ostalo
         dataPath = Path.Combine(Application.persistentDataPath, "highscore.txt");
         //Debug.Log(dataPath);
+
+
         animacija.SetBool("pije", false);
         burger.SetActive(false);
         voda.SetActive(false);
+        animacijaTipkanja.SetBool("mobitel", false);
+        likKojiTipka.SetActive(false);
+        mobitelObjekt.SetActive(false);
+
 
 
         LoadHighScore();
@@ -67,7 +76,6 @@ public class Main : MonoBehaviour
         UpdateScoreText();
 
     }
-
     void Update()//svaki frame
     {
         if (isGameOver)
@@ -107,6 +115,7 @@ public class Main : MonoBehaviour
             San = 100f;
         }
 
+
         if (Input.GetKeyDown(KeyCode.S))
         {
             animacija.SetBool("pije", true);
@@ -135,6 +144,20 @@ public class Main : MonoBehaviour
             burger.SetActive(false);
         }
 
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            animacijaTipkanja.SetBool("mobitel", true);
+            likKojiTipka.SetActive(true);
+            mobitelObjekt.SetActive(true);
+        }
+
+        if (Input.GetKeyUp(KeyCode.D))
+        {
+            animacijaTipkanja.SetBool("mobitel", false);
+            likKojiTipka.SetActive(false);
+            mobitelObjekt.SetActive(false);
+        }
+
 
         //eliminira double input, ako je jedan aktivan ostali ne mogu bit
         //kada se drzi button odredena radnja postaje true, i dodaje mu se vrijednost na value slidera
@@ -146,13 +169,13 @@ public class Main : MonoBehaviour
         }
         else if (pije)
         {
-            Thirst += 0.07f;
+            Thirst += 0.05f;
             jede = false;
             mobitel = false;
         }
         else if (mobitel)
         {
-            San += 0.07f;
+            San += 0.05f;
             jede = false;
             pije = false;
         }
@@ -199,7 +222,6 @@ public class Main : MonoBehaviour
 
         void gameOver()//dobiva spremljeni high score iz filea
         {
-            lik.SetActive(false);
             isGameOver = true;
             GameOverText.text = "Game Over";
             //kada je jede/pije/spava aktivan krug postaje unhiden
