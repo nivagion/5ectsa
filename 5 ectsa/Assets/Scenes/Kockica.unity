@@ -5084,9 +5084,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baf6f6649b4ac504eaba6d14fa3cad1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSeconds: 5
+  maxSeconds: 4
   rotationDuration: 1
-  cooldownDuration: 1
+  cooldownDuration: 0.6
 --- !u!1 &1172352224
 GameObject:
   m_ObjectHideFlags: 0

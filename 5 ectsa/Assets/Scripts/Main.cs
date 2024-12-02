@@ -66,7 +66,7 @@ public class Main : MonoBehaviour
         burger.SetActive(false);
         voda.SetActive(false);
         lik.SetActive(false);
-        animacijaTipkanja.SetBool("mobitel", false);
+        //animacijaTipkanja.SetBool("mobitel", false);
         likKojiTipka.SetActive(false);
         mobitelObjekt.SetActive(false);
 
@@ -98,87 +98,75 @@ public class Main : MonoBehaviour
         Thirst -= lossThirst * Time.deltaTime;
         San -= lossSan * Time.deltaTime;
 
-        jede = Input.GetKey(KeyCode.A);
-        pije = Input.GetKey(KeyCode.S);
-        mobitel = Input.GetKey(KeyCode.D);
-
-        //eliminira drzanje buttona i dizanje slidera preko 100
-        if (Hunger > 100f)
-        {
+        // Ensures sliders don't exceed 100
+        if(Hunger > 100f) {
             Hunger = 100f;
         }
-        else if (Thirst > 100f)
-        {
+        else if(Thirst > 100f) {
             Thirst = 100f;
         }
-        else if (San > 100f)
-        {
+        else if(San > 100f) {
             San = 100f;
         }
 
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            animacija.SetBool("pije", true);
-            lik.SetActive(true);
-            voda.SetActive(true);
-        }
-
-        if (Input.GetKeyUp(KeyCode.S))
-        {
+        // Reset states to prevent conflicting animations
+        void ResetStates() {
             animacija.SetBool("pije", false);
             lik.SetActive(false);
             voda.SetActive(false);
-        }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            animacija.SetBool("pije", true);
-            lik.SetActive(true);
-            burger.SetActive(true);
-        }
-
-        if (Input.GetKeyUp(KeyCode.A))
-        {
-            animacija.SetBool("pije", false);
-            lik.SetActive(false);
             burger.SetActive(false);
-        }
-
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            animacijaTipkanja.SetBool("mobitel", true);
-            likKojiTipka.SetActive(true);
-            mobitelObjekt.SetActive(true);
-        }
-
-        if (Input.GetKeyUp(KeyCode.D))
-        {
-            animacijaTipkanja.SetBool("mobitel", false);
             likKojiTipka.SetActive(false);
             mobitelObjekt.SetActive(false);
         }
 
+        // Input handling
+        if(Input.GetKeyDown(KeyCode.S) && !jede && !mobitel) {
+            ResetStates(); // Reset other states
+            animacija.SetBool("pije", true);
+            lik.SetActive(true);
+            voda.SetActive(true);
+            pije = true; // Drinking state
+        }
 
-        //eliminira double input, ako je jedan aktivan ostali ne mogu bit
-        //kada se drzi button odredena radnja postaje true, i dodaje mu se vrijednost na value slidera
-        if (jede)
-        {
-            Hunger += 0.1f;
+        if(Input.GetKeyUp(KeyCode.S)) {
+            ResetStates(); // Reset drinking state
             pije = false;
+        }
+
+        if(Input.GetKeyDown(KeyCode.A) && !pije && !mobitel) {
+            ResetStates(); // Reset other states
+            animacija.SetBool("pije", true);
+            lik.SetActive(true);
+            burger.SetActive(true);
+            jede = true; // Eating state
+        }
+
+        if(Input.GetKeyUp(KeyCode.A)) {
+            ResetStates(); // Reset eating state
+            jede = false;
+        }
+
+        if(Input.GetKeyDown(KeyCode.D) && !pije && !jede) {
+            ResetStates(); // Reset other states
+            likKojiTipka.SetActive(true);
+            mobitelObjekt.SetActive(true);
+            mobitel = true; // Using phone state
+        }
+
+        if(Input.GetKeyUp(KeyCode.D)) {
+            ResetStates(); // Reset phone state
             mobitel = false;
         }
-        else if (pije)
-        {
-            Thirst += 0.05f;
-            jede = false;
-            mobitel = false;
+
+        // Slider adjustments
+        if(jede) {
+            Hunger += Time.deltaTime * 30.0f;
         }
-        else if (mobitel)
-        {
-            San += 0.05f;
-            jede = false;
-            pije = false;
+        else if(pije) {
+            Thirst += Time.deltaTime * 30.0f;
+        }
+        else if(mobitel) {
+            San += Time.deltaTime * 30.0f;
         }
 
         //GAME OVER

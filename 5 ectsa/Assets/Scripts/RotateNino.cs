@@ -21,6 +21,8 @@ public class RotateNino : MonoBehaviour
 
         // Start the random rotation coroutine
         StartCoroutine(RandomRotationRoutine());
+
+
     }
 
     private IEnumerator RandomRotationRoutine()
@@ -38,23 +40,34 @@ public class RotateNino : MonoBehaviour
             yield return new WaitForSeconds(cooldownDuration);
         }
     }
-
-    private IEnumerator RotateCapsule()
-    {
+    private IEnumerator RotateCapsule() {
+        // First rotation to the target
         Quaternion startRotation = transform.rotation;
         Quaternion endRotation = isRotated ? initialRotation : targetRotation;
         float elapsedTime = 0f;
 
-        while (elapsedTime < rotationDuration)
-        {
-            // Interpolate the rotation
+        while(elapsedTime < rotationDuration) {
             transform.rotation = Quaternion.Slerp(startRotation, endRotation, elapsedTime / rotationDuration);
             elapsedTime += Time.deltaTime;
-            yield return null;  // Wait for the next frame
+            yield return null;
         }
 
-        // Ensure the final rotation is exactly the target rotation
         transform.rotation = endRotation;
+
+        // Immediately start the return rotation
+        if(!isRotated) {
+            startRotation = transform.rotation;
+            endRotation = initialRotation;
+            elapsedTime = 0f;
+
+            while(elapsedTime < rotationDuration) {
+                transform.rotation = Quaternion.Slerp(startRotation, endRotation, elapsedTime / rotationDuration);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            transform.rotation = endRotation;
+        }
 
         // Toggle the rotation state
         isRotated = !isRotated;
