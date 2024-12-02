@@ -62,7 +62,7 @@ public class RotateNino : MonoBehaviour
 
             while(elapsedTime < rotationDuration) {
                 transform.rotation = Quaternion.Slerp(startRotation, endRotation, elapsedTime / rotationDuration);
-                elapsedTime += Time.deltaTime;
+                elapsedTime += Time.deltaTime * 0.6f;
                 yield return null;
             }
 
