@@ -65,6 +65,7 @@ public class Main : MonoBehaviour
         animacija.SetBool("pije", false);
         burger.SetActive(false);
         voda.SetActive(false);
+        lik.SetActive(false);
         animacijaTipkanja.SetBool("mobitel", false);
         likKojiTipka.SetActive(false);
         mobitelObjekt.SetActive(false);
